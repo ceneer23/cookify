@@ -1,0 +1,161 @@
+Perfect — you're going for a **full-stack MERN application** with TailwindCSS. Here's an updated and **tech-inclusive specification** for your **Cookify** web app project, incorporating **React**, **Tailwind CSS**, **Node.js**, **Express**, **MongoDB**, and other essential tools for modern development.
+
+---
+
+# 🍽️ **Cookify — Tech Stack-Based Requirements & Functionalities**
+
+### 🚀 Project Type:
+
+Responsive Full-Stack Web Application
+
+---
+
+## ⚙️ **Technology Stack**
+
+### 🔧 **Frontend**
+
+* **React.js** – for building dynamic, component-based UI.
+* **Tailwind CSS** – for utility-first, mobile-first styling.
+* **React Router** – for managing routes and pages.
+* **Axios** – for HTTP requests to the backend.
+* **React Context API / Redux Toolkit (optional)** – for state management.
+* **Framer Motion / Animate.css (optional)** – for UI animations and transitions.
+* **Headless UI + Heroicons** – for accessible components and icons.
+
+### 🔧 **Backend**
+
+* **Node.js** – JavaScript runtime environment.
+* **Express.js** – Fast, minimalist web framework for routing and APIs.
+* **Mongoose** – For MongoDB object modeling and schema definition.
+* **JWT (jsonwebtoken)** – For secure user authentication.
+* **Bcrypt.js** – For password hashing.
+
+### 🛢️ **Database**
+
+* **MongoDB Atlas** – Cloud-hosted NoSQL database (highly scalable).
+
+### 🧰 **Other Tools and Integrations**
+
+* **Stripe API** – For payment gateway integration.
+* **Cloudinary** – For menu image and profile picture uploads.
+* **Multer** – To handle multipart/form-data (e.g., file uploads).
+* **Dotenv** – For environment variable management.
+* **CORS** – Middleware to enable cross-origin requests.
+* **Nodemailer or SendGrid** – For transactional emails (e.g., order confirmation, verification).
+
+---
+
+## 🧩 Functional Requirements (with Stack Context)
+
+### 1. **Authentication (JWT + Bcrypt)**
+
+* Secure login, signup, and token-based session management.
+* Roles handled via middleware:
+
+  * `admin`, `user`, `restaurant_owner`
+* Passwords hashed with **Bcrypt**.
+
+### 2. **Frontend Pages (React + Tailwind + Router)**
+
+* Home Page (Restaurant List, Featured, Search)
+* Menu Page (Dishes, Add to Cart)
+* Cart Page (Items, Checkout)
+* Login/Register Page
+* Admin Dashboard
+* Restaurant Dashboard
+* User Dashboard
+* Order History
+* Contact/About pages
+
+### 3. **Admin Functionality**
+
+* Dashboard with analytics (e.g., Total Users, Orders, Restaurants)
+* Approve/Reject restaurant requests
+* Add/Delete categories, cuisines
+* Monitor flagged reviews
+* View total revenue, top-selling dishes
+
+### 4. **Customer/User Functionality**
+
+* Register/Login (JWT)
+* Browse/Search restaurants and menus
+* Add to cart, checkout with Stripe
+* Rate and review food
+* Track orders in real-time
+* Edit profile, change password
+
+### 5. **Restaurant Owner Functionality**
+
+* Register and await approval
+* Upload restaurant info, menu items, images (Cloudinary)
+* Manage availability and stock
+* Accept/reject orders (status updates)
+* Add discounts and coupons
+* View sales data and reviews
+
+### 6. **Order & Payment System**
+
+* Cart saves items with quantity and price.
+* Stripe integration for secure payments.
+* Cash on Delivery option with backend validation.
+* Order statuses:
+  `Pending → Confirmed → Preparing → Out for Delivery → Delivered`
+* Backend notifications system (email + frontend updates)
+
+### 7. **API Endpoints (Express + MongoDB)**
+
+#### `/api/auth`
+
+* POST `/register`, POST `/login`, GET `/me`, POST `/change-password`
+
+#### `/api/restaurants`
+
+* GET `/`, POST `/register`, PUT `/update`, DELETE `/delete`, GET `/approved`
+
+#### `/api/menus`
+
+* GET `/restaurant/:id`, POST `/add`, PUT `/edit/:id`, DELETE `/remove/:id`
+
+#### `/api/orders`
+
+* POST `/create`, GET `/user/:id`, PUT `/update-status/:id`
+
+#### `/api/reviews`
+
+* POST `/`, GET `/restaurant/:id`, DELETE `/remove/:id`
+
+#### `/api/admin`
+
+* GET `/dashboard-data`, PUT `/approve-restaurant/:id`, GET `/reports`
+
+---
+
+## 🧠 Non-Functional Requirements
+
+* **Responsive** across mobile, tablet, and desktop (Tailwind breakpoints).
+* **Secure** – JWT auth, hashed passwords, secure payment.
+* **Scalable** – Designed for high traffic with MongoDB’s document model.
+* **Clean UI/UX** – Consistent and visually appealing Tailwind UI components.
+* **SEO Basics** – Dynamic metadata (React Helmet), Open Graph tags.
+
+---
+
+## 🔐 Security Measures
+
+* Passwords hashed with Bcrypt before storing.
+* Tokens signed and verified using JWT with expiration.
+* Admin and Role-based access via Express middleware.
+* Input validation with Joi or Express Validator.
+* Helmet + rate-limiter on the backend.
+
+---
+
+## 🛠️ Optional Enhancements
+
+* **PWA support** – for offline access and app-like experience.
+* **Chat integration** – between customer and restaurant.
+* **Notification system** – real-time using Socket.IO (optional).
+* **Multi-language** – using i18n libraries like react-i18next.
+* **Admin export tools** – export orders and users as CSV or PDF.
+
+-Use MVC
