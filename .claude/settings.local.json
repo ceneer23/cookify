@@ -12,7 +12,11 @@
       "Bash(npx kill-port:*)",
       "Bash(TASKKILL /F /PID 9032)",
       "Bash(TASKKILL:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git push:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

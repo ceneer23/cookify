@@ -36,10 +36,7 @@ const Navbar = () => {
           </nav>
           
           <div className="flex items-center space-x-4">
-            {/* Order Notifications */}
             {isAuthenticated && <OrderNotifications />}
-            
-            {/* Cart Icon */}
             <button
               onClick={toggleCart}
               className="relative p-2 text-gray-600 hover:text-gray-900 transition-colors"
