@@ -9,7 +9,7 @@ require('dotenv').config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(cors({
@@ -31,26 +31,39 @@ app.use(cors({
       // Add production frontend URL (update this with your actual frontend URL)
       process.env.FRONTEND_URL,
       'https://cookify-frontend.vercel.app',
-      'https://cookify-frontend.netlify.app'
+      'https://cookify-frontend.netlify.app',
+      // Add more flexible patterns for common hosting platforms
+      'https://cookify-frontend.onrender.com',
+      'https://cookify.netlify.app',
+      'https://cookify.vercel.app',
+      // Your actual hosted frontend URL
+      'https://cookify-eta.vercel.app'
     ].filter(Boolean);
+    
+    console.log('CORS - Request origin:', origin);
     
     // Check if the origin is in the allowed list
     if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log('CORS - Origin allowed');
       callback(null, true);
     } else {
       // For development, allow all localhost origins
-      if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+        console.log('CORS - Localhost origin allowed');
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        console.log('CORS - Origin blocked:', origin);
+        callback(null, false);
       }
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   exposedHeaders: ['Content-Length', 'X-Content-Type-Options'],
-  maxAge: 86400 // 24 hours
+  maxAge: 86400, // 24 hours
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
 const limiter = rateLimit({

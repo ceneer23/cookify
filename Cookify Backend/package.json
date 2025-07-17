@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node kill-port.js 5001 && nodemon server.js",
-    "dev:force": "node kill-port.js 5001 && node server.js",
+    "dev": "node kill-port.js 5000 && nodemon server.js",
+    "dev:force": "node kill-port.js 5000 && node server.js",
     "kill-port": "node kill-port.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
