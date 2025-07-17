@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const OrderConfirmation = () => {
   const { orderId } = useParams();
@@ -17,7 +18,7 @@ const OrderConfirmation = () => {
   const fetchOrderDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/orders/${orderId}`,
+        `${API_URL}/orders/${orderId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }

@@ -10,9 +10,12 @@ const generateToken = (id) => {
 
 const register = async (req, res) => {
   try {
+    console.log('=== User Registration ===');
     const { name, email, password, role, phone } = req.body;
+    console.log('Registration data:', { name, email, role, phone });
 
     if (!name || !email || !password) {
+      console.log('Validation failed - missing required fields');
       return res.status(400).json({ 
         error: 'Validation failed',
         details: [
@@ -25,6 +28,7 @@ const register = async (req, res) => {
 
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) {
+      console.log('Invalid email format:', email);
       return res.status(400).json({ 
         error: 'Validation failed',
         details: [{ field: 'email', message: 'Please provide a valid email address' }]
@@ -32,20 +36,24 @@ const register = async (req, res) => {
     }
 
     if (password.length < 6) {
+      console.log('Password too short');
       return res.status(400).json({ 
         error: 'Validation failed',
         details: [{ field: 'password', message: 'Password must be at least 6 characters long' }]
       });
     }
 
+    console.log('Checking if user exists...');
     const userExists = await User.findOne({ email });
     if (userExists) {
+      console.log('User already exists with email:', email);
       return res.status(400).json({ 
         error: 'User already exists',
         details: [{ field: 'email', message: 'User with this email already exists' }]
       });
     }
 
+    console.log('Creating new user...');
     const user = await User.create({
       name,
       email,
@@ -54,7 +62,19 @@ const register = async (req, res) => {
       phone
     });
 
+    console.log('User created successfully:', user._id);
+    console.log('User details:', { name: user.name, email: user.email, role: user.role });
+
+    // Verify user was saved
+    const savedUser = await User.findById(user._id);
+    console.log('Verified user saved in database:', !!savedUser);
+
+    // Check total user count
+    const totalUsers = await User.countDocuments();
+    console.log('Total users in database:', totalUsers);
+
     if (user) {
+      console.log('=== Registration successful ===');
       res.status(201).json({
         _id: user._id,
         name: user.name,
@@ -63,6 +83,7 @@ const register = async (req, res) => {
         token: generateToken(user._id)
       });
     } else {
+      console.log('User creation failed');
       res.status(400).json({ error: 'Invalid user data' });
     }
   } catch (error) {

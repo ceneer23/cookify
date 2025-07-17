@@ -100,12 +100,15 @@ const getRestaurant = async (req, res) => {
 // @access  Private (restaurant owners)
 const createRestaurant = async (req, res) => {
   try {
-    console.log('Creating restaurant for user:', req.user?.id);
-    console.log('Request body:', req.body);
+    console.log('=== Creating restaurant ===');
+    console.log('User ID:', req.user?.id);
+    console.log('User role:', req.user?.role);
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
     
     // Check if user already has a restaurant
     const existingRestaurant = await Restaurant.findOne({ owner: req.user.id });
     if (existingRestaurant) {
+      console.log('User already has a restaurant:', existingRestaurant._id);
       return res.status(400).json({ error: 'You already have a restaurant registered' });
     }
 
@@ -114,21 +117,43 @@ const createRestaurant = async (req, res) => {
       owner: req.user.id
     };
 
-    console.log('Restaurant data to create:', restaurantData);
+    console.log('Restaurant data to create:', JSON.stringify(restaurantData, null, 2));
 
+    // Create restaurant
     const restaurant = await Restaurant.create(restaurantData);
+    console.log('Restaurant created with ID:', restaurant._id);
+    
+    // Populate owner details
     await restaurant.populate('owner', 'name email');
+    console.log('Restaurant populated with owner details');
 
-    console.log('Restaurant created successfully:', restaurant._id);
+    // Verify the restaurant was saved
+    const savedRestaurant = await Restaurant.findById(restaurant._id);
+    console.log('Verified restaurant saved in database:', !!savedRestaurant);
+    
+    // Check total count
+    const totalCount = await Restaurant.countDocuments();
+    console.log('Total restaurants in database:', totalCount);
+
+    console.log('=== Restaurant creation successful ===');
     res.status(201).json(restaurant);
   } catch (error) {
-    console.error('Create restaurant error:', error);
-    console.error('Error details:', error.message);
+    console.error('=== Create restaurant error ===');
+    console.error('Error:', error);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    
     if (error.name === 'ValidationError') {
       const errors = Object.values(error.errors).map(err => err.message);
       console.error('Validation errors:', errors);
       return res.status(400).json({ error: errors.join(', ') });
     }
+    
+    if (error.name === 'MongoError' || error.name === 'MongoServerError') {
+      console.error('MongoDB error:', error.message);
+      return res.status(500).json({ error: 'Database error: ' + error.message });
+    }
+    
     res.status(500).json({ error: 'Server error: ' + error.message });
   }
 };
@@ -138,34 +163,65 @@ const createRestaurant = async (req, res) => {
 // @access  Private (restaurant owner)
 const updateRestaurant = async (req, res) => {
   try {
+    console.log('=== Updating restaurant ===');
+    console.log('Restaurant ID:', req.params.id);
+    console.log('User ID:', req.user?.id);
+    console.log('User role:', req.user?.role);
+    console.log('Update data:', JSON.stringify(req.body, null, 2));
+    
     let restaurant = await Restaurant.findById(req.params.id);
 
     if (!restaurant) {
+      console.log('Restaurant not found for ID:', req.params.id);
       return res.status(404).json({ error: 'Restaurant not found' });
     }
 
+    console.log('Found restaurant:', restaurant.name);
+    console.log('Restaurant owner:', restaurant.owner.toString());
+
     // Check ownership
     if (restaurant.owner.toString() !== req.user.id && req.user.role !== 'admin') {
+      console.log('Authorization failed - not owner or admin');
       return res.status(403).json({ error: 'Not authorized to update this restaurant' });
     }
 
     // Remove fields that shouldn't be updated directly
     const { owner, isApproved, ...updateData } = req.body;
+    console.log('Sanitized update data:', JSON.stringify(updateData, null, 2));
 
+    // Perform update
     restaurant = await Restaurant.findByIdAndUpdate(
       req.params.id,
       updateData,
       { new: true, runValidators: true }
     ).populate('owner', 'name email');
 
+    console.log('Restaurant updated successfully');
+    
+    // Verify update was saved
+    const verifyRestaurant = await Restaurant.findById(req.params.id);
+    console.log('Verified restaurant updated in database:', !!verifyRestaurant);
+    
+    console.log('=== Restaurant update successful ===');
     res.json(restaurant);
   } catch (error) {
-    console.error('Update restaurant error:', error);
+    console.error('=== Update restaurant error ===');
+    console.error('Error:', error);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+    
     if (error.name === 'ValidationError') {
       const errors = Object.values(error.errors).map(err => err.message);
+      console.error('Validation errors:', errors);
       return res.status(400).json({ error: errors.join(', ') });
     }
-    res.status(500).json({ error: 'Server error' });
+    
+    if (error.name === 'MongoError' || error.name === 'MongoServerError') {
+      console.error('MongoDB error:', error.message);
+      return res.status(500).json({ error: 'Database error: ' + error.message });
+    }
+    
+    res.status(500).json({ error: 'Server error: ' + error.message });
   }
 };
 

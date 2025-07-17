@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const RestaurantRegistration = () => {
   const [formData, setFormData] = useState({
@@ -37,6 +38,29 @@ const RestaurantRegistration = () => {
   
   const { user, token } = useAuth();
   const navigate = useNavigate();
+
+  // Check if user already has a restaurant
+  useEffect(() => {
+    if (user && token && user.role === 'restaurant_owner') {
+      const checkExistingRestaurant = async () => {
+        try {
+          const response = await axios.get(`${API_URL}/restaurants/my-restaurant`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
+          if (response.data) {
+            // User already has a restaurant, redirect to dashboard
+            navigate('/restaurant-dashboard');
+          }
+        } catch (error) {
+          // No restaurant found, user can register
+          console.log('No existing restaurant found, user can register');
+        }
+      };
+      
+      checkExistingRestaurant();
+    }
+  }, [user, token, navigate]);
 
   const cuisines = [
     'Italian', 'Chinese', 'Indian', 'Mexican', 'American', 
@@ -156,15 +180,33 @@ const RestaurantRegistration = () => {
     
     if (!validateForm()) return;
     
+    // Check if user is authenticated
+    if (!token) {
+      setErrors({ submit: 'Authentication required. Please log in again.' });
+      return;
+    }
+    
+    // Check if user has the right role
+    if (user.role !== 'restaurant_owner') {
+      setErrors({ submit: 'You must be registered as a restaurant owner to create a restaurant.' });
+      return;
+    }
+    
     setLoading(true);
     
     try {
+      console.log('Submitting restaurant registration...');
+      console.log('API URL:', `${API_URL}/restaurants`);
+      console.log('Token available:', !!token);
+      console.log('User role:', user.role);
+      
       const response = await axios.post(
-        'http://localhost:5000/api/restaurants',
+        `${API_URL}/restaurants`,
         formData,
         {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
         }
       );
@@ -177,8 +219,31 @@ const RestaurantRegistration = () => {
     } catch (error) {
       console.error('Restaurant registration error:', error);
       console.error('Error response:', error.response?.data);
-      const errorMsg = error.response?.data?.error || error.message || 'Registration failed';
-      setErrors({ submit: errorMsg });
+      
+      let errorMsg = 'Registration failed';
+      
+      if (error.response) {
+        // Server responded with error status
+        errorMsg = error.response.data?.error || `Server error: ${error.response.status}`;
+      } else if (error.request) {
+        // Request was made but no response received
+        errorMsg = 'Network error: Unable to connect to server. Please check if the server is running and try again.';
+      } else {
+        // Something else happened
+        errorMsg = error.message || 'Registration failed';
+      }
+      
+      // Special handling for "already have a restaurant" error
+      if (errorMsg.includes('already have a restaurant')) {
+        setErrors({ 
+          submit: 'You already have a restaurant registered. Redirecting to your dashboard...' 
+        });
+        setTimeout(() => {
+          navigate('/restaurant-dashboard');
+        }, 3000);
+      } else {
+        setErrors({ submit: errorMsg });
+      }
     } finally {
       setLoading(false);
     }

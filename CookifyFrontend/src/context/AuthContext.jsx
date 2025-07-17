@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const AuthContext = createContext();
 
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   const loadUser = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/auth/me');
+      const res = await axios.get(`${API_URL}/auth/me`);
       dispatch({ type: 'SET_USER', payload: res.data });
     } catch (error) {
       localStorage.removeItem('cookify_token');
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     dispatch({ type: 'LOGIN_START' });
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      const res = await axios.post(`${API_URL}/auth/login`, {
         email,
         password
       });
@@ -93,7 +94,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     dispatch({ type: 'LOGIN_START' });
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', userData);
+      const res = await axios.post(`${API_URL}/auth/register`, userData);
       
       
       localStorage.setItem('cookify_token', res.data.token);

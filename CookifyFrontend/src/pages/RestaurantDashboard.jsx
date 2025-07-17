@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const RestaurantDashboard = () => {
   const [restaurant, setRestaurant] = useState(null);
@@ -17,19 +18,19 @@ const RestaurantDashboard = () => {
 
   const fetchRestaurantData = async () => {
     try {
-      const restaurantRes = await axios.get('http://localhost:5000/api/restaurants/my-restaurant', {
+      const restaurantRes = await axios.get(`${API_URL}/restaurants/my-restaurant`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
       if (restaurantRes.data) {
         setRestaurant(restaurantRes.data);
         
-        const ordersRes = await axios.get('http://localhost:5000/api/orders/restaurant?limit=20', {
+        const ordersRes = await axios.get(`${API_URL}/orders/restaurant?limit=20`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(ordersRes.data);
         
-        const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
+        const menuRes = await axios.get(`${API_URL}/menus/restaurant/${restaurantRes.data._id}?available=false`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setMenuItemsCount(menuRes.data.length);

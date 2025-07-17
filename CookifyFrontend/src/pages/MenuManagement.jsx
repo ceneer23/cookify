@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const MenuManagement = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -51,14 +52,14 @@ const MenuManagement = () => {
 
   const fetchRestaurantAndMenu = async () => {
     try {
-      const restaurantRes = await axios.get('http://localhost:5000/api/restaurants/my-restaurant', {
+      const restaurantRes = await axios.get(`${API_URL}/restaurants/my-restaurant`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
       if (restaurantRes.data) {
         setRestaurant(restaurantRes.data);
         
-        const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
+        const menuRes = await axios.get(`${API_URL}/menus/restaurant/${restaurantRes.data._id}?available=false`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -176,7 +177,7 @@ const MenuManagement = () => {
 
       if (editingItem) {
         await axios.put(
-          `http://localhost:5000/api/menus/${editingItem._id}`,
+          `${API_URL}/menus/${editingItem._id}`,
           formDataToSend,
           { 
             headers: { 
@@ -188,7 +189,7 @@ const MenuManagement = () => {
         setMessage({ type: 'success', text: 'Menu item updated successfully!' });
       } else {
         await axios.post(
-          'http://localhost:5000/api/menus',
+          `${API_URL}/menus`,
           formDataToSend,
           { 
             headers: { 
@@ -244,7 +245,7 @@ const MenuManagement = () => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/menus/${id}`, {
+      await axios.delete(`${API_URL}/menus/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage({ type: 'success', text: 'Menu item deleted successfully!' });
@@ -260,7 +261,7 @@ const MenuManagement = () => {
   const toggleAvailability = async (item) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/menus/${item._id}`,
+        `${API_URL}/menus/${item._id}`,
         { isAvailable: !item.isAvailable },
         { headers: { Authorization: `Bearer ${token}` } }
       );

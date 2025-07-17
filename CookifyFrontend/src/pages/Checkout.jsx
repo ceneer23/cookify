@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -121,7 +122,7 @@ const Checkout = () => {
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/orders',
+        `${API_URL}/orders`,
         orderData,
         {
           headers: {

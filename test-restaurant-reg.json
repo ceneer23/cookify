@@ -1,0 +1,25 @@
+{
+  "name": "Test Restaurant Frontend",
+  "description": "A test restaurant from frontend simulation",
+  "cuisine": "Italian",
+  "phone": "555-123-4567",
+  "email": "restaurant@test.com",
+  "address": {
+    "street": "123 Main Street",
+    "city": "Test City",
+    "state": "Test State",
+    "zipCode": "12345"
+  },
+  "hours": {
+    "monday": { "open": "09:00", "close": "22:00", "closed": false },
+    "tuesday": { "open": "09:00", "close": "22:00", "closed": false },
+    "wednesday": { "open": "09:00", "close": "22:00", "closed": false },
+    "thursday": { "open": "09:00", "close": "22:00", "closed": false },
+    "friday": { "open": "09:00", "close": "22:00", "closed": false },
+    "saturday": { "open": "09:00", "close": "22:00", "closed": false },
+    "sunday": { "open": "09:00", "close": "22:00", "closed": false }
+  },
+  "deliveryFee": 2.99,
+  "minimumOrder": 25,
+  "estimatedDeliveryTime": "30-45 min"
+}

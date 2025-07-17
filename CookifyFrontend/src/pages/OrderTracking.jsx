@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const OrderTracking = () => {
   const { orderId } = useParams();
@@ -26,7 +27,7 @@ const OrderTracking = () => {
       if (showLoading) setLoading(true);
       
       const response = await axios.get(
-        `http://localhost:5000/api/orders/${orderId}`,
+        `${API_URL}/orders/${orderId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }

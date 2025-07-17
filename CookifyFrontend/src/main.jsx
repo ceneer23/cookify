@@ -14,6 +14,9 @@ import './global.css'
   }
 }(window.location))
 
+// Service Worker registration removed to prevent interference with development
+// Uncomment below if you need PWA functionality in production
+/*
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
@@ -23,6 +26,17 @@ if ('serviceWorker' in navigator) {
       .catch((registrationError) => {
         console.log('SW registration failed: ', registrationError);
       });
+  });
+}
+*/
+
+// Force unregister any existing service workers
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    for (let registration of registrations) {
+      console.log('Unregistering service worker:', registration);
+      registration.unregister();
+    }
   });
 }
 

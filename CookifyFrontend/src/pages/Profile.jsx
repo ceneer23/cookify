@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const Profile = () => {
   const { user, token, logout } = useAuth();
@@ -81,7 +82,7 @@ const Profile = () => {
     
     try {
       const response = await axios.put(
-        'http://localhost:5000/api/auth/profile',
+        `${API_URL}/auth/profile`,
         formData,
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -122,7 +123,7 @@ const Profile = () => {
     
     try {
       await axios.put(
-        'http://localhost:5000/api/auth/change-password',
+        `${API_URL}/auth/change-password`,
         {
           currentPassword: passwordData.currentPassword,
           newPassword: passwordData.newPassword

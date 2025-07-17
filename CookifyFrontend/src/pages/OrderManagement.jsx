@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
@@ -36,7 +37,7 @@ const OrderManagement = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/orders/restaurant', {
+      const response = await axios.get(`${API_URL}/orders/restaurant`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOrders(response.data);
@@ -51,7 +52,7 @@ const OrderManagement = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/orders/${orderId}/status`,
+        `${API_URL}/orders/${orderId}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );

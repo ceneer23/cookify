@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const mongoUri = 'mongodb://127.0.0.1:27017/cookify-test';
+    const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/cookify';
     
     const conn = await mongoose.connect(mongoUri);
     console.log(`🍃 MongoDB Connected: ${conn.connection.host}`);

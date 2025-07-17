@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 import { useCart } from '../context/CartContext';
 
 const RestaurantDetails = () => {
@@ -22,10 +23,10 @@ const RestaurantDetails = () => {
     try {
       setLoading(true);
       
-      const restaurantRes = await axios.get(`http://localhost:5000/api/restaurants/${id}`);
+      const restaurantRes = await axios.get(`${API_URL}/restaurants/${id}`);
       setRestaurant(restaurantRes.data);
 
-      const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${id}`);
+      const menuRes = await axios.get(`${API_URL}/menus/restaurant/${id}`);
       setMenuItems(menuRes.data);
       
     } catch (error) {

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -28,7 +29,7 @@ const Restaurants = () => {
       params.append('page', filters.page);
       params.append('limit', '12');
 
-      const response = await axios.get(`http://localhost:5000/api/restaurants?${params}`);
+      const response = await axios.get(`${API_URL}/restaurants?${params}`);
       setRestaurants(response.data.restaurants);
       setError('');
     } catch (err) {

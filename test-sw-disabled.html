@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Worker Disabled Test</title>
+</head>
+<body>
+    <h1>Service Worker Status Test</h1>
+    <div id="result"></div>
+    
+    <script>
+        function testServiceWorker() {
+            const result = document.getElementById('result');
+            
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    if (registrations.length === 0) {
+                        result.innerHTML = '✅ SUCCESS: No Service Workers registered!';
+                        result.style.color = 'green';
+                    } else {
+                        result.innerHTML = '❌ ISSUE: ' + registrations.length + ' Service Worker(s) still registered';
+                        result.style.color = 'red';
+                        
+                        // Try to unregister them
+                        registrations.forEach(registration => {
+                            registration.unregister();
+                        });
+                    }
+                });
+            } else {
+                result.innerHTML = '⚠️ Service Worker not supported in this browser';
+                result.style.color = 'orange';
+            }
+        }
+        
+        // Test immediately
+        testServiceWorker();
+        
+        // Test again after 2 seconds
+        setTimeout(testServiceWorker, 2000);
+    </script>
+</body>
+</html>
