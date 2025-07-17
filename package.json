@@ -1,4 +1,27 @@
 {
+  "name": "cookify-app",
+  "version": "1.0.0",
+  "description": "Cookify food delivery application",
+  "main": "Cookify Backend/server.js",
+  "scripts": {
+    "start": "cd \"Cookify Backend\" && npm start",
+    "build": "cd \"Cookify Backend\" && npm install",
+    "dev": "cd \"Cookify Backend\" && npm run dev",
+    "install-backend": "cd \"Cookify Backend\" && npm install",
+    "install-frontend": "cd \"CookifyFrontend\" && npm install",
+    "install-all": "npm run install-backend && npm run install-frontend"
+  },
+  "keywords": [
+    "food",
+    "delivery",
+    "restaurant",
+    "app"
+  ],
+  "author": "Sena",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "mongoose": "^8.16.3"
   }

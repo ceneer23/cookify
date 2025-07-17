@@ -15,7 +15,7 @@
 3. **Configure the Service**:
    - **Name**: `cookify-backend`
    - **Environment**: `Node`
-   - **Build Command**: `npm install`
+   - **Build Command**: `cd "Cookify Backend" && npm install`
    - **Start Command**: `npm start`
    - **Plan**: Free (or choose your preferred plan)
 
