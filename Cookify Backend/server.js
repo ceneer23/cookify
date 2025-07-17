@@ -9,7 +9,7 @@ require('dotenv').config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5001;
 
 app.use(helmet());
 app.use(cors({
@@ -27,8 +27,12 @@ app.use(cors({
       'http://localhost:3001',
       'http://127.0.0.1:5500',
       'http://127.0.0.1:5173',
-      'http://127.0.0.1:5174'
-    ];
+      'http://127.0.0.1:5174',
+      // Add production frontend URL (update this with your actual frontend URL)
+      process.env.FRONTEND_URL,
+      'https://cookify-frontend.vercel.app',
+      'https://cookify-frontend.netlify.app'
+    ].filter(Boolean);
     
     // Check if the origin is in the allowed list
     if (allowedOrigins.indexOf(origin) !== -1) {

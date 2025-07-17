@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: cookify-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://sena:sena@cluster0.gyks1.mongodb.net/cookify?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: your-super-secret-jwt-key-here-make-it-long-and-random
+      - key: JWT_EXPIRE
+        value: 30d
+      - key: FRONTEND_URL
+        value: https://cookify-frontend.vercel.app
+    healthCheckPath: /health
