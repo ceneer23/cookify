@@ -1,3 +1,7 @@
+# Claude-related files
+.claude/
+CLAUDE.md
+
 # Dependencies
 node_modules/
 npm-debug.log*
