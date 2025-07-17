@@ -52,9 +52,14 @@ app.use(cors({
       console.log('CORS - Origin allowed');
       callback(null, true);
     } else {
-      // For development, allow all localhost origins
-      if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
-        console.log('CORS - Localhost origin allowed');
+      // For development, allow all localhost and network IP origins
+      if (origin && (
+        origin.includes('localhost') || 
+        origin.includes('127.0.0.1') ||
+        origin.includes('30.10.0.232') ||
+        origin.includes('172.21.192.1')
+      )) {
+        console.log('CORS - Development origin allowed');
         callback(null, true);
       } else {
         console.log('CORS - Origin blocked:', origin);
@@ -63,12 +68,12 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
   exposedHeaders: ['Content-Length', 'X-Content-Type-Options'],
   maxAge: 86400, // 24 hours
   preflightContinue: false,
-  optionsSuccessStatus: 204
+  optionsSuccessStatus: 200
 }));
 
 const limiter = rateLimit({
