@@ -28,6 +28,11 @@ app.use(cors({
       'http://127.0.0.1:5500',
       'http://127.0.0.1:5173',
       'http://127.0.0.1:5174',
+      // Network IP addresses
+      'http://30.10.0.232:5174',
+      'http://172.21.192.1:5174',
+      'http://30.10.0.232:5173',
+      'http://172.21.192.1:5173',
       // Add production frontend URL (update this with your actual frontend URL)
       process.env.FRONTEND_URL,
       'https://cookify-frontend.vercel.app',
@@ -102,9 +107,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`=🍽 Cookify server running on port ${PORT}`);
   console.log(`=🔍 Health check: http://localhost:${PORT}/health`);
+  console.log(`=🌐 Network access: http://30.10.0.232:${PORT}/health`);
+  console.log(`=🌐 Network access: http://172.21.192.1:${PORT}/health`);
 });
 
 server.on('error', (err) => {

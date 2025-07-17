@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (email, password) => {
+  const login = async (email, password, retryCount = 0) => {
     dispatch({ type: 'LOGIN_START' });
     try {
       const res = await axios.post(`${API_URL}/auth/login`, {
@@ -84,7 +84,19 @@ export const AuthProvider = ({ children }) => {
       });
       return { success: true };
     } catch (error) {
-      const errorMsg = error.response?.data?.error || 'Login failed';
+      // Retry logic for network issues (common on mobile)
+      if (retryCount < 2 && (
+        error.code === 'NETWORK_ERROR' || 
+        error.code === 'ECONNABORTED' || 
+        error.message.includes('timeout') ||
+        error.message.includes('Network connection failed')
+      )) {
+        console.log(`Login attempt ${retryCount + 1} failed, retrying...`);
+        await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1))); // Exponential backoff
+        return login(email, password, retryCount + 1);
+      }
+      
+      const errorMsg = error.response?.data?.error || error.message || 'Login failed';
       const details = error.response?.data?.details || [];
       dispatch({ type: 'LOGIN_ERROR', payload: errorMsg });
       return { success: false, error: errorMsg, details };
