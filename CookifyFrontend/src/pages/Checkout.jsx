@@ -21,32 +21,26 @@ const Checkout = () => {
   const [message, setMessage] = useState({ type: '', text: '' });
   
   const [formData, setFormData] = useState({
-    // Delivery Address
     street: '',
     city: '',
     state: '',
     zipCode: '',
     instructions: '',
     
-    // Contact Info
     phone: user?.phone || '',
     email: user?.email || '',
     
-    // Payment
     paymentMethod: 'Cash on Delivery',
     
-    // Special Instructions
     specialInstructions: ''
   });
 
   useEffect(() => {
-    // Redirect if cart is empty
     if (items.length === 0) {
       navigate('/restaurants');
       return;
     }
 
-    // Redirect if not logged in
     if (!user) {
       navigate('/login');
       return;
@@ -73,7 +67,6 @@ const Checkout = () => {
       return false;
     }
 
-    // Validate phone number (basic)
     if (!/^\d{8,15}$/.test(formData.phone.replace(/\s+/g, ''))) {
       setMessage({
         type: 'error',
@@ -138,7 +131,6 @@ const Checkout = () => {
         }
       );
 
-      // Clear cart and redirect to order confirmation
       clearCart();
       navigate(`/order-confirmation/${response.data._id}`);
       
@@ -161,12 +153,10 @@ const Checkout = () => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white shadow rounded-lg overflow-hidden">
-          {/* Header */}
           <div className="bg-orange-500 px-6 py-4">
             <h1 className="text-2xl font-bold text-white">Checkout</h1>
           </div>
 
-          {/* Message Display */}
           {message.text && (
             <div className={`mx-6 mt-6 p-4 rounded-md ${
               message.type === 'success' 
@@ -179,9 +169,7 @@ const Checkout = () => {
 
           <form onSubmit={handleSubmit} className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Left Column - Forms */}
               <div className="space-y-8">
-                {/* Delivery Address */}
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Delivery Address</h2>
                   <div className="grid grid-cols-1 gap-4">
@@ -262,7 +250,6 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {/* Contact Information */}
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h2>
                   <div className="grid grid-cols-1 gap-4">
@@ -296,7 +283,6 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                {/* Payment Method */}
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Payment Method</h2>
                   <div className="space-y-3">
@@ -323,7 +309,6 @@ const Checkout = () => {
                   )}
                 </div>
 
-                {/* Special Instructions */}
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Special Instructions</h2>
                   <textarea
@@ -337,19 +322,16 @@ const Checkout = () => {
                 </div>
               </div>
 
-              {/* Right Column - Order Summary */}
               <div>
                 <div className="sticky top-8">
                   <h2 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h2>
                   
-                  {/* Restaurant Info */}
                   <div className="bg-gray-50 p-4 rounded-md mb-4">
                     <h3 className="font-medium text-gray-900">{restaurant.name}</h3>
                     <p className="text-sm text-gray-600">{restaurant.cuisine}</p>
                     <p className="text-sm text-gray-600">Delivery: {restaurant.estimatedDeliveryTime}</p>
                   </div>
 
-                  {/* Order Items */}
                   <div className="space-y-3 mb-6">
                     {items.map(item => (
                       <div key={item.id} className="flex justify-between items-start">
@@ -377,7 +359,6 @@ const Checkout = () => {
                     ))}
                   </div>
 
-                  {/* Order Total */}
                   <div className="border-t border-gray-200 pt-4 space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Subtotal:</span>
@@ -397,7 +378,6 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  {/* Place Order Button */}
                   <button
                     type="submit"
                     disabled={loading}

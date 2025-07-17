@@ -17,7 +17,6 @@ const RestaurantDashboard = () => {
 
   const fetchRestaurantData = async () => {
     try {
-      // Get restaurant owned by current user
       const restaurantRes = await axios.get('http://localhost:5000/api/restaurants/my-restaurant', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -25,13 +24,11 @@ const RestaurantDashboard = () => {
       if (restaurantRes.data) {
         setRestaurant(restaurantRes.data);
         
-        // Fetch orders for this restaurant
         const ordersRes = await axios.get('http://localhost:5000/api/orders/restaurant?limit=20', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(ordersRes.data);
         
-        // Fetch menu items count
         const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -101,7 +98,6 @@ const RestaurantDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
@@ -112,7 +108,6 @@ const RestaurantDashboard = () => {
           </div>
         </div>
 
-        {/* Status Alert */}
         {!restaurant.isApproved && (
           <div className="mb-8 bg-yellow-50 border border-yellow-200 rounded-md p-4">
             <div className="flex">
@@ -130,7 +125,6 @@ const RestaurantDashboard = () => {
           </div>
         )}
 
-        {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="p-5">
@@ -219,7 +213,6 @@ const RestaurantDashboard = () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="p-6">
@@ -297,7 +290,6 @@ const RestaurantDashboard = () => {
           </div>
         </div>
 
-        {/* Restaurant Details */}
         <div className="bg-white shadow rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">Restaurant Information</h3>

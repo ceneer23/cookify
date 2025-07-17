@@ -14,9 +14,8 @@ const OrderTracking = () => {
   useEffect(() => {
     fetchOrderDetails();
     
-    // Set up polling for real-time updates every 30 seconds
     const interval = setInterval(() => {
-      fetchOrderDetails(false); // Don't show loading on auto-refresh
+      fetchOrderDetails(false);
     }, 30000);
 
     return () => clearInterval(interval);
@@ -83,7 +82,6 @@ const OrderTracking = () => {
     if (order?.estimatedDeliveryTime) {
       return new Date(order.estimatedDeliveryTime);
     }
-    // Default to 35 minutes from order time
     const orderTime = new Date(order?.createdAt);
     orderTime.setMinutes(orderTime.getMinutes() + 35);
     return orderTime;
@@ -132,7 +130,6 @@ const OrderTracking = () => {
       <div className="mb-8">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Progress</h3>
         <div className="relative">
-          {/* Progress Line */}
           <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200"></div>
           <div 
             className="absolute left-6 top-0 w-0.5 bg-orange-500 transition-all duration-500"
@@ -141,7 +138,6 @@ const OrderTracking = () => {
             }}
           ></div>
 
-          {/* Status Steps */}
           <div className="space-y-6">
             {statuses.map((status, index) => {
               const isPast = index <= currentStatusIndex && !isCancelled;
@@ -150,7 +146,6 @@ const OrderTracking = () => {
 
               return (
                 <div key={status} className="relative flex items-start">
-                  {/* Status Icon */}
                   <div className={`
                     relative z-10 flex items-center justify-center w-12 h-12 rounded-full border-2 
                     ${isPast || isCurrent 
@@ -161,7 +156,6 @@ const OrderTracking = () => {
                     <span className="text-lg">{statusInfo.icon}</span>
                   </div>
 
-                  {/* Status Content */}
                   <div className="ml-4 flex-1">
                     <div className="flex items-center justify-between">
                       <h4 className={`text-sm font-medium ${
@@ -189,7 +183,6 @@ const OrderTracking = () => {
               );
             })}
 
-            {/* Cancelled Status */}
             {isCancelled && (
               <div className="relative flex items-start">
                 <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full border-2 bg-red-500 border-red-500 text-white">
@@ -242,7 +235,6 @@ const OrderTracking = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-3xl font-bold text-gray-900">Track Your Order</h1>
@@ -259,10 +251,8 @@ const OrderTracking = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow p-6">
-              {/* Current Status */}
               <div className="mb-8 p-6 bg-gray-50 rounded-lg">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
@@ -277,7 +267,6 @@ const OrderTracking = () => {
                   </span>
                 </div>
 
-                {/* Delivery Time */}
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-600">Estimated Delivery Time:</p>
@@ -296,10 +285,8 @@ const OrderTracking = () => {
                 </div>
               </div>
 
-              {/* Order Timeline */}
               <OrderStatusTimeline />
 
-              {/* Restaurant Contact */}
               <div className="border-t border-gray-200 pt-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Restaurant Contact</h3>
                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -318,9 +305,7 @@ const OrderTracking = () => {
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Order Summary */}
             <div className="bg-white rounded-lg shadow p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h3>
               
@@ -364,7 +349,6 @@ const OrderTracking = () => {
               </div>
             </div>
 
-            {/* Delivery Address */}
             <div className="bg-white rounded-lg shadow p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Delivery Address</h3>
               <div className="text-sm text-gray-700">
@@ -380,7 +364,6 @@ const OrderTracking = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="space-y-3">

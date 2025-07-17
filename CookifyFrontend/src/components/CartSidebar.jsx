@@ -29,12 +29,10 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
   const handleCheckout = () => {
     if (!user) {
-      // Redirect to login
       onClose();
       navigate('/login');
       return;
     }
-    // Navigate to checkout page
     onClose();
     navigate('/checkout');
   };
@@ -43,15 +41,12 @@ const CartSidebar = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-black bg-opacity-50 z-40"
         onClick={onClose}
       ></div>
 
-      {/* Sidebar */}
       <div className="fixed right-0 top-0 h-full w-96 bg-white shadow-xl z-50 flex flex-col">
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <h2 className="text-lg font-semibold text-gray-900">Your Cart</h2>
           <button
@@ -62,7 +57,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Cart Content */}
         <div className="flex-1 overflow-y-auto">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full p-6 text-center">
@@ -79,7 +73,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
             </div>
           ) : (
             <div className="p-6">
-              {/* Restaurant Info */}
               {restaurant && (
                 <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                   <h3 className="font-medium text-gray-900">{restaurant.name}</h3>
@@ -88,11 +81,9 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* Cart Items */}
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
                   <div key={item.id} className="flex items-start space-x-3 pb-4 border-b border-gray-100">
-                    {/* Item Image */}
                     <div className="flex-shrink-0">
                       {item.menuItem.image ? (
                         <img
@@ -107,7 +98,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
                       )}
                     </div>
 
-                    {/* Item Details */}
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-gray-900 truncate">{item.menuItem.name}</h4>
                       <p className="text-sm text-gray-600">AED {item.price.toFixed(2)} each</p>
@@ -126,7 +116,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
                         <p className="text-xs text-gray-500 mt-1">Note: {item.specialInstructions}</p>
                       )}
 
-                      {/* Quantity Controls */}
                       <div className="flex items-center mt-2">
                         <button
                           onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
@@ -150,7 +139,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
                       </div>
                     </div>
 
-                    {/* Item Total */}
                     <div className="text-right">
                       <p className="font-medium text-gray-900">
                         AED {(item.price * item.quantity).toFixed(2)}
@@ -160,7 +148,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
                 ))}
               </div>
 
-              {/* Clear Cart */}
               <button
                 onClick={clearCart}
                 className="w-full text-center text-red-600 hover:text-red-800 text-sm py-2 border border-red-200 rounded-md hover:bg-red-50 transition-colors"
@@ -171,7 +158,6 @@ const CartSidebar = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Footer - Order Summary */}
         {items.length > 0 && (
           <div className="border-t p-6">
             <div className="space-y-2 mb-4">

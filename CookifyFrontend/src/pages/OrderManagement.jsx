@@ -30,8 +30,7 @@ const OrderManagement = () => {
 
   useEffect(() => {
     fetchOrders();
-    // Set up polling for real-time updates
-    const interval = setInterval(fetchOrders, 30000); // Poll every 30 seconds
+    const interval = setInterval(fetchOrders, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -58,7 +57,7 @@ const OrderManagement = () => {
       );
       
       setMessage({ type: 'success', text: `Order status updated to ${newStatus}` });
-      fetchOrders(); // Refresh orders
+      fetchOrders();
     } catch (error) {
       setMessage({ 
         type: 'error', 
@@ -97,13 +96,11 @@ const OrderManagement = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Order Management</h1>
           <p className="mt-2 text-gray-600">Manage incoming orders and delivery status</p>
         </div>
 
-        {/* Alert Messages */}
         {message.text && (
           <div className={`mb-6 p-4 rounded-md ${
             message.type === 'success' 
@@ -120,7 +117,6 @@ const OrderManagement = () => {
           </div>
         )}
 
-        {/* Filters */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-2">
             <button
@@ -159,7 +155,6 @@ const OrderManagement = () => {
           </div>
         </div>
 
-        {/* Orders List */}
         {filteredOrders.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-8 text-center">
             <div className="text-6xl mb-4">📦</div>
@@ -175,7 +170,6 @@ const OrderManagement = () => {
           <div className="space-y-4">
             {filteredOrders.map(order => (
               <div key={order._id} className="bg-white rounded-lg shadow border border-gray-200">
-                {/* Order Header */}
                 <div className="p-6 border-b border-gray-200">
                   <div className="flex items-center justify-between">
                     <div>
@@ -198,10 +192,8 @@ const OrderManagement = () => {
                   </div>
                 </div>
 
-                {/* Order Details */}
                 <div className="p-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Items */}
                     <div>
                       <h4 className="font-medium text-gray-900 mb-3">Order Items</h4>
                       <div className="space-y-2">
@@ -240,7 +232,6 @@ const OrderManagement = () => {
                       )}
                     </div>
 
-                    {/* Customer & Delivery Info */}
                     <div>
                       <h4 className="font-medium text-gray-900 mb-3">Delivery Information</h4>
                       <div className="space-y-2 text-sm">
@@ -276,7 +267,6 @@ const OrderManagement = () => {
                         </div>
                       </div>
 
-                      {/* Pricing Breakdown */}
                       <div className="mt-4 p-3 bg-gray-50 rounded">
                         <h5 className="font-medium text-gray-900 mb-2">Order Total</h5>
                         <div className="space-y-1 text-sm">
@@ -307,7 +297,6 @@ const OrderManagement = () => {
                     </div>
                   </div>
 
-                  {/* Status Update Controls */}
                   <div className="mt-6 pt-4 border-t border-gray-200">
                     <h4 className="font-medium text-gray-900 mb-3">Update Order Status</h4>
                     <div className="flex flex-wrap gap-2">
@@ -328,7 +317,6 @@ const OrderManagement = () => {
                     </div>
                   </div>
 
-                  {/* Estimated Delivery Time */}
                   {order.status === 'Confirmed' && (
                     <div className="mt-4 p-3 bg-blue-50 rounded border border-blue-200">
                       <p className="text-sm text-blue-700">

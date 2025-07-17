@@ -67,7 +67,6 @@ const RestaurantRegistration = () => {
       });
     }
     
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -95,7 +94,7 @@ const RestaurantRegistration = () => {
     
     setFormData({
       ...formData,
-      images: [...formData.images, ...imageUrls].slice(0, 5) // Max 5 images
+      images: [...formData.images, ...imageUrls].slice(0, 5)
     });
   };
 
@@ -185,7 +184,6 @@ const RestaurantRegistration = () => {
     }
   };
 
-  // Check if user is restaurant owner
   if (!user || user.role !== 'restaurant_owner') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -232,7 +230,6 @@ const RestaurantRegistration = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Basic Information */}
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -292,7 +289,6 @@ const RestaurantRegistration = () => {
               </div>
             </div>
 
-            {/* Contact Information */}
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -332,7 +328,6 @@ const RestaurantRegistration = () => {
               </div>
             </div>
 
-            {/* Address */}
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Address</h2>
               <div className="space-y-4">
@@ -408,7 +403,6 @@ const RestaurantRegistration = () => {
               </div>
             </div>
 
-            {/* Business Hours */}
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Business Hours</h2>
               <div className="space-y-3">
@@ -452,7 +446,6 @@ const RestaurantRegistration = () => {
               </div>
             </div>
 
-            {/* Restaurant Images */}
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Restaurant Images</h2>
               <div className="space-y-4">
@@ -495,7 +488,6 @@ const RestaurantRegistration = () => {
               </div>
             </div>
 
-            {/* Delivery Settings */}
             <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Delivery Settings</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -545,7 +537,6 @@ const RestaurantRegistration = () => {
               </div>
             </div>
 
-            {/* Submit */}
             {errors.submit && (
               <div className="bg-red-50 border border-red-200 rounded-md p-4">
                 <p className="text-red-800">{errors.submit}</p>

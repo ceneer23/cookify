@@ -22,11 +22,9 @@ const RestaurantDetails = () => {
     try {
       setLoading(true);
       
-      // Fetch restaurant details
       const restaurantRes = await axios.get(`http://localhost:5000/api/restaurants/${id}`);
       setRestaurant(restaurantRes.data);
 
-      // Fetch menu items
       const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${id}`);
       setMenuItems(menuRes.data);
       
@@ -100,11 +98,9 @@ const RestaurantDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Restaurant Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Restaurant Images */}
             <div>
               {restaurant.images && restaurant.images.length > 0 ? (
                 <div className="space-y-4">
@@ -135,7 +131,6 @@ const RestaurantDetails = () => {
               )}
             </div>
 
-            {/* Restaurant Info */}
             <div>
               <div className="flex items-start justify-between">
                 <div>
@@ -210,7 +205,6 @@ const RestaurantDetails = () => {
         </div>
       </div>
 
-      {/* Menu Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl font-bold text-gray-900">Menu</h2>
@@ -219,7 +213,6 @@ const RestaurantDetails = () => {
           )}
         </div>
 
-        {/* Message Display */}
         {message.text && (
           <div className={`mb-6 p-4 rounded-md ${
             message.type === 'success' 
@@ -232,7 +225,6 @@ const RestaurantDetails = () => {
 
         {menuItems.length > 0 && (
           <>
-            {/* Category Filter */}
             <div className="mb-8">
               <div className="flex flex-wrap gap-2">
                 <button
@@ -261,7 +253,6 @@ const RestaurantDetails = () => {
               </div>
             </div>
 
-            {/* Menu Items */}
             <div className="space-y-8">
               {Object.entries(groupedMenuItems).map(([category, items]) => (
                 <div key={category}>
@@ -270,7 +261,6 @@ const RestaurantDetails = () => {
                     {items.map((item) => (
                       <div key={item._id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                         <div className="flex">
-                          {/* Menu Item Image */}
                           <div className="flex-shrink-0">
                             {item.image ? (
                               <img
@@ -285,7 +275,6 @@ const RestaurantDetails = () => {
                             )}
                           </div>
 
-                          {/* Menu Item Details */}
                           <div className="flex-1 p-6">
                             <div className="flex justify-between items-start">
                               <div className="flex-1">

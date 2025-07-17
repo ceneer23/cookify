@@ -1,6 +1,5 @@
 const { body, validationResult } = require('express-validator');
 
-// Validation middleware to check for errors
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -17,7 +16,6 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
-// Registration validation rules
 const validateRegistration = [
   body('name')
     .notEmpty()
@@ -51,7 +49,6 @@ const validateRegistration = [
   handleValidationErrors
 ];
 
-// Login validation rules
 const validateLogin = [
   body('email')
     .isEmail()
@@ -66,7 +63,6 @@ const validateLogin = [
   handleValidationErrors
 ];
 
-// Change password validation rules
 const validateChangePassword = [
   body('currentPassword')
     .notEmpty()
@@ -81,7 +77,6 @@ const validateChangePassword = [
   handleValidationErrors
 ];
 
-// Profile update validation rules
 const validateProfileUpdate = [
   body('name')
     .optional()

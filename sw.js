@@ -8,7 +8,6 @@ const urlsToCache = [
   '/icon-512x512.png'
 ];
 
-// Install event - cache resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -22,31 +21,25 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Fetch event - serve cached content when offline
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // Return cached version or fetch from network
         if (response) {
           return response;
         }
         
-        // Clone the request because it can only be used once
         const fetchRequest = event.request.clone();
         
         return fetch(fetchRequest).then((response) => {
-          // Check if valid response
           if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
           }
           
-          // Clone the response because it can only be used once
           const responseToCache = response.clone();
           
           caches.open(CACHE_NAME)
             .then((cache) => {
-              // Only cache GET requests and avoid caching API calls for dynamic content
               if (event.request.method === 'GET' && !event.request.url.includes('/api/')) {
                 cache.put(event.request, responseToCache);
               }
@@ -54,7 +47,6 @@ self.addEventListener('fetch', (event) => {
           
           return response;
         }).catch(() => {
-          // Return offline page for navigation requests
           if (event.request.destination === 'document') {
             return caches.match('/').then((response) => {
               return response || new Response('Offline - Please check your connection', {
@@ -66,7 +58,6 @@ self.addEventListener('fetch', (event) => {
               });
             });
           }
-          // Return a basic offline response for other requests
           return new Response('Network request failed', {
             status: 503,
             statusText: 'Service Unavailable',
@@ -79,7 +70,6 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -95,7 +85,6 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Background sync for offline form submissions
 self.addEventListener('sync', (event) => {
   if (event.tag === 'background-sync') {
     event.waitUntil(syncData());
@@ -103,7 +92,6 @@ self.addEventListener('sync', (event) => {
 });
 
 async function syncData() {
-  // Handle offline form submissions when back online
   try {
     const cache = await caches.open(CACHE_NAME + '-offline-forms');
     const requests = await cache.keys();
@@ -121,7 +109,6 @@ async function syncData() {
   }
 }
 
-// Push notifications (for future order updates)
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'New order update available!',
@@ -151,7 +138,6 @@ self.addEventListener('push', (event) => {
   );
 });
 
-// Handle notification clicks
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   

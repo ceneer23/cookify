@@ -14,7 +14,6 @@ const OrderNotifications = () => {
     if (user && token) {
       fetchActiveOrders();
       
-      // Check for order updates every 2 minutes
       const interval = setInterval(() => {
         fetchActiveOrders();
       }, 120000);
@@ -29,12 +28,10 @@ const OrderNotifications = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      // Filter for active orders (not delivered or cancelled)
       const active = response.data.filter(order => 
         !['Delivered', 'Cancelled'].includes(order.status)
       );
       
-      // Check for status changes
       checkForStatusUpdates(active);
       setActiveOrders(active);
       
@@ -49,7 +46,6 @@ const OrderNotifications = () => {
     newOrders.forEach(newOrder => {
       const existingOrder = activeOrders.find(order => order._id === newOrder._id);
       
-      // If status changed, create notification
       if (existingOrder && existingOrder.status !== newOrder.status) {
         const notification = {
           id: `${newOrder._id}-${now.getTime()}`,
@@ -60,7 +56,7 @@ const OrderNotifications = () => {
           read: false
         };
         
-        setNotifications(prev => [notification, ...prev.slice(0, 4)]); // Keep last 5
+        setNotifications(prev => [notification, ...prev.slice(0, 4)]);
       }
     });
   };
@@ -107,7 +103,6 @@ const OrderNotifications = () => {
 
   return (
     <div className="relative">
-      {/* Notification Bell */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 text-gray-600 hover:text-gray-900 transition-colors"
@@ -120,16 +115,13 @@ const OrderNotifications = () => {
         )}
       </button>
 
-      {/* Dropdown */}
       {isOpen && (
         <>
-          {/* Backdrop */}
           <div 
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           ></div>
           
-          {/* Notification Panel */}
           <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center justify-between">
@@ -146,7 +138,6 @@ const OrderNotifications = () => {
             </div>
 
             <div className="max-h-96 overflow-y-auto">
-              {/* Recent Notifications */}
               {notifications.length > 0 && (
                 <div className="p-4 border-b border-gray-100">
                   <h4 className="text-sm font-medium text-gray-700 mb-3">Recent Updates</h4>
@@ -185,7 +176,6 @@ const OrderNotifications = () => {
                 </div>
               )}
 
-              {/* Active Orders */}
               {activeOrders.length > 0 && (
                 <div className="p-4">
                   <h4 className="text-sm font-medium text-gray-700 mb-3">Active Orders</h4>
@@ -224,7 +214,6 @@ const OrderNotifications = () => {
                 </div>
               )}
 
-              {/* Empty State */}
               {activeOrders.length === 0 && notifications.length === 0 && (
                 <div className="p-8 text-center">
                   <div className="text-4xl mb-3">📋</div>
@@ -236,7 +225,6 @@ const OrderNotifications = () => {
               )}
             </div>
 
-            {/* Footer */}
             <div className="p-4 border-t border-gray-200">
               <Link
                 to="/order-history"

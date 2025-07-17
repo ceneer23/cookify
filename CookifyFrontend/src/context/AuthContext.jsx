@@ -75,7 +75,6 @@ export const AuthProvider = ({ children }) => {
         password
       });
       
-      console.log('Login response:', res.data); // Debug log
       
       localStorage.setItem('cookify_token', res.data.token);
       dispatch({ 
@@ -84,7 +83,6 @@ export const AuthProvider = ({ children }) => {
       });
       return { success: true };
     } catch (error) {
-      console.log('Login error:', error.response?.data || error.message); // Debug log
       const errorMsg = error.response?.data?.error || 'Login failed';
       const details = error.response?.data?.details || [];
       dispatch({ type: 'LOGIN_ERROR', payload: errorMsg });
@@ -97,7 +95,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post('http://localhost:5000/api/auth/register', userData);
       
-      console.log('Registration response:', res.data); // Debug log
       
       localStorage.setItem('cookify_token', res.data.token);
       dispatch({ 
@@ -106,7 +103,6 @@ export const AuthProvider = ({ children }) => {
       });
       return { success: true };
     } catch (error) {
-      console.log('Registration error:', error.response?.data || error.message); // Debug log
       const errorMsg = error.response?.data?.error || 'Registration failed';
       const details = error.response?.data?.details || [];
       dispatch({ type: 'LOGIN_ERROR', payload: errorMsg });

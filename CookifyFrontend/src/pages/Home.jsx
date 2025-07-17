@@ -4,11 +4,9 @@ import { useAuth } from '../context/AuthContext';
 const Home = () => {
   const { user, isAuthenticated } = useAuth();
 
-  // Restaurant Owner Home
   if (isAuthenticated && user?.role === 'restaurant_owner') {
     return (
       <div className="min-h-screen bg-gray-50">
-        {/* Restaurant Owner Hero Section */}
         <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white">
           <div className="max-w-7xl mx-auto py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
             <div className="text-center">
@@ -39,7 +37,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Restaurant Owner Features */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
@@ -90,10 +87,8 @@ const Home = () => {
     );
   }
 
-  // Customer Home
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Customer Hero Section */}
       <section className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
         <div className="max-w-7xl mx-auto py-20 sm:py-24 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -134,7 +129,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">

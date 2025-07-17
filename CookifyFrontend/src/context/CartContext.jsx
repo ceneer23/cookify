@@ -74,7 +74,6 @@ const initialState = {
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  // Load cart from localStorage on mount
   useEffect(() => {
     const savedCart = localStorage.getItem('cookify-cart');
     if (savedCart) {
@@ -87,7 +86,6 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('cookify-cart', JSON.stringify(state));
   }, [state]);
@@ -125,12 +123,10 @@ export const CartProvider = ({ children }) => {
   const calculateItemPrice = (menuItem, customizations = []) => {
     let basePrice = menuItem.price;
     
-    // Apply discount if available
     if (menuItem.discount?.percentage > 0) {
       basePrice = basePrice * (1 - menuItem.discount.percentage / 100);
     }
 
-    // Add customization costs
     const customizationCost = customizations.reduce((total, customization) => {
       return total + customization.selectedOptions.reduce((optionTotal, option) => {
         return optionTotal + (option.price || 0);
@@ -151,10 +147,8 @@ export const CartProvider = ({ children }) => {
   };
 
   const canAddToCart = (restaurant) => {
-    // If cart is empty, allow any restaurant
     if (state.items.length === 0) return true;
     
-    // If cart has items, only allow items from the same restaurant
     return state.restaurant?._id === restaurant._id;
   };
 
@@ -164,7 +158,7 @@ export const CartProvider = ({ children }) => {
 
   const getTax = () => {
     const subtotal = getCartTotal();
-    return Math.round(subtotal * 0.085 * 100) / 100; // 8.5% tax
+    return Math.round(subtotal * 0.085 * 100) / 100;
   };
 
   const getFinalTotal = () => {

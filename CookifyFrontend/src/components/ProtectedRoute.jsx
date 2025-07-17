@@ -4,7 +4,6 @@ import { useAuth } from '../context/AuthContext';
 const ProtectedRoute = ({ children, requiredRole = null }) => {
   const { user, isAuthenticated, loading } = useAuth();
 
-  // Show loading spinner while checking authentication
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -16,15 +15,12 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
     );
   }
 
-  // Redirect to login if not authenticated
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }
 
-  // Check role requirements
   if (requiredRole) {
     if (Array.isArray(requiredRole)) {
-      // Multiple roles allowed
       if (!requiredRole.includes(user.role)) {
         return (
           <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -42,7 +38,6 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
         );
       }
     } else {
-      // Single role required
       if (user.role !== requiredRole) {
         return (
           <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -62,7 +57,6 @@ const ProtectedRoute = ({ children, requiredRole = null }) => {
     }
   }
 
-  // User is authenticated and has required permissions
   return children;
 };
 

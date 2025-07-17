@@ -47,7 +47,6 @@ const OrderConfirmation = () => {
     if (order?.estimatedDeliveryTime) {
       return new Date(order.estimatedDeliveryTime).toLocaleString();
     }
-    // Default to 35 minutes from order time
     const orderTime = new Date(order?.createdAt);
     orderTime.setMinutes(orderTime.getMinutes() + 35);
     return orderTime.toLocaleString();
@@ -85,7 +84,6 @@ const OrderConfirmation = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Success Header */}
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">✅</div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
@@ -95,7 +93,6 @@ const OrderConfirmation = () => {
         </div>
 
         <div className="bg-white shadow rounded-lg overflow-hidden">
-          {/* Order Header */}
           <div className="bg-green-50 px-6 py-4 border-b">
             <div className="flex items-center justify-between">
               <div>
@@ -113,7 +110,6 @@ const OrderConfirmation = () => {
           </div>
 
           <div className="p-6">
-            {/* Restaurant Info */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Restaurant</h3>
               <div className="bg-gray-50 p-4 rounded-md">
@@ -123,7 +119,6 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* Delivery Information */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Delivery Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -149,7 +144,6 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* Estimated Delivery Time */}
             <div className="mb-6 bg-blue-50 border border-blue-200 rounded-md p-4">
               <div className="flex items-center">
                 <span className="text-2xl mr-3">🕐</span>
@@ -161,7 +155,6 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* Order Items */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Order Items</h3>
               <div className="space-y-3">
@@ -195,7 +188,6 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* Special Instructions */}
             {order.specialInstructions && (
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Special Instructions</h3>
@@ -205,7 +197,6 @@ const OrderConfirmation = () => {
               </div>
             )}
 
-            {/* Payment Information */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Payment Information</h3>
               <div className="bg-gray-50 p-4 rounded-md">
@@ -226,7 +217,6 @@ const OrderConfirmation = () => {
               </div>
             </div>
 
-            {/* Order Total */}
             <div className="border-t border-gray-200 pt-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Order Summary</h3>
               <div className="space-y-2">
@@ -257,9 +247,7 @@ const OrderConfirmation = () => {
           </div>
         </div>
 
-        {/* Action Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          {/* Show Track Order for active orders */}
           {!['Delivered', 'Cancelled'].includes(order.status) && (
             <Link
               to={`/order-tracking/${order._id}`}
@@ -282,7 +270,6 @@ const OrderConfirmation = () => {
           </Link>
         </div>
 
-        {/* Help Section */}
         <div className="mt-8 bg-gray-100 rounded-lg p-6 text-center">
           <h3 className="text-lg font-semibold text-gray-900 mb-2">Need Help?</h3>
           <p className="text-gray-600 mb-4">

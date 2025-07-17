@@ -91,10 +91,8 @@ const Profile = () => {
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
       setIsEditing(false);
       
-      // Update user in context
       if (response.data) {
-        // You might need to add an updateUser function in AuthContext
-        window.location.reload(); // Temporary solution
+        window.location.reload();
       }
     } catch (error) {
       setMessage({ 
@@ -182,7 +180,6 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Profile Header */}
         <div className="bg-white shadow rounded-lg mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
@@ -207,7 +204,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Alert Messages */}
         {message.text && (
           <div className={`mb-6 p-4 rounded-md ${
             message.type === 'success' 
@@ -218,7 +214,6 @@ const Profile = () => {
           </div>
         )}
 
-        {/* Profile Information */}
         <div className="bg-white shadow rounded-lg mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
@@ -394,7 +389,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Security Section */}
         <div className="bg-white shadow rounded-lg mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">Security</h3>
@@ -478,7 +472,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Account Actions */}
         <div className="bg-white shadow rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">Account Actions</h3>

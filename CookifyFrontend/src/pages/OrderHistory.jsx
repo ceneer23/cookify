@@ -82,7 +82,6 @@ const OrderHistory = () => {
           <div className="space-y-6">
             {orders.map(order => (
               <div key={order._id} className="bg-white rounded-lg shadow border border-gray-200">
-                {/* Order Header */}
                 <div className="p-6 border-b border-gray-200">
                   <div className="flex items-center justify-between">
                     <div>
@@ -107,7 +106,6 @@ const OrderHistory = () => {
                   </div>
                 </div>
 
-                {/* Order Items */}
                 <div className="p-6">
                   <h4 className="font-medium text-gray-900 mb-3">Items Ordered</h4>
                   <div className="space-y-2">
@@ -130,7 +128,6 @@ const OrderHistory = () => {
                   </div>
 
                   <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                    {/* Show Track Order for active orders */}
                     {!['Delivered', 'Cancelled'].includes(order.status) ? (
                       <Link
                         to={`/order-tracking/${order._id}`}

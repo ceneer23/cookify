@@ -2,21 +2,16 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const mockAuth = require('../mockAuth');
 
-// Generate JWT token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE || '30d'
   });
 };
 
-// @desc    Register user
-// @route   POST /api/auth/register
-// @access  Public
 const register = async (req, res) => {
   try {
     const { name, email, password, role, phone } = req.body;
 
-    // Basic validation
     if (!name || !email || !password) {
       return res.status(400).json({ 
         error: 'Validation failed',
@@ -28,7 +23,6 @@ const register = async (req, res) => {
       });
     }
 
-    // Email format validation
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({ 
@@ -37,7 +31,6 @@ const register = async (req, res) => {
       });
     }
 
-    // Password strength validation
     if (password.length < 6) {
       return res.status(400).json({ 
         error: 'Validation failed',
@@ -45,7 +38,6 @@ const register = async (req, res) => {
       });
     }
 
-    // Check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ 
@@ -54,7 +46,6 @@ const register = async (req, res) => {
       });
     }
 
-    // Create user
     const user = await User.create({
       name,
       email,
@@ -77,7 +68,6 @@ const register = async (req, res) => {
   } catch (error) {
     console.error('Registration error:', error);
     
-    // Handle Mongoose validation errors
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         field: err.path,
@@ -90,7 +80,6 @@ const register = async (req, res) => {
       });
     }
 
-    // Handle duplicate key error
     if (error.code === 11000) {
       return res.status(400).json({
         error: 'User already exists',
@@ -102,13 +91,9 @@ const register = async (req, res) => {
   }
 };
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Basic validation
     if (!email || !password) {
       return res.status(400).json({ 
         error: 'Validation failed',
@@ -119,7 +104,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Email format validation
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({ 
@@ -128,7 +112,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Try database authentication first
     try {
       console.log('Attempting database authentication for:', email);
       const user = await User.findOne({ email });
@@ -156,13 +139,11 @@ const login = async (req, res) => {
       console.log('Database authentication failed, trying mock auth:', dbError.message);
     }
 
-    // Fallback to mock authentication if database fails
     const mockUser = await mockAuth.login(email, password);
     if (mockUser) {
       return res.json(mockUser);
     }
 
-    // No authentication method worked
     res.status(401).json({ 
       error: 'Invalid credentials',
       details: [{ field: 'general', message: 'Invalid email or password' }]
@@ -173,16 +154,12 @@ const login = async (req, res) => {
   }
 };
 
-// @desc    Get user profile
-// @route   GET /api/auth/me
-// @access  Private
 const getMe = async (req, res) => {
   try {
     if (!req.user) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
     
-    // Use the req.user object directly (it's already set by the middleware)
     return res.json(req.user);
   } catch (error) {
     console.error('Get profile error:', error);
@@ -190,21 +167,16 @@ const getMe = async (req, res) => {
   }
 };
 
-// @desc    Change password
-// @route   PUT /api/auth/change-password
-// @access  Private
 const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
     const user = await User.findById(req.user.id);
 
-    // Check current password
     if (!(await user.comparePassword(currentPassword))) {
       return res.status(400).json({ error: 'Current password is incorrect' });
     }
 
-    // Update password
     user.password = newPassword;
     await user.save();
 
@@ -215,16 +187,12 @@ const changePassword = async (req, res) => {
   }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/auth/profile
-// @access  Private
 const updateProfile = async (req, res) => {
   try {
     const { name, phone, address } = req.body;
 
     const updateData = {};
     
-    // Only update fields that are provided
     if (name) updateData.name = name;
     if (phone !== undefined) updateData.phone = phone;
     if (address) updateData.address = address;

@@ -51,7 +51,6 @@ const MenuManagement = () => {
 
   const fetchRestaurantAndMenu = async () => {
     try {
-      // First get restaurant
       const restaurantRes = await axios.get('http://localhost:5000/api/restaurants/my-restaurant', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -59,7 +58,6 @@ const MenuManagement = () => {
       if (restaurantRes.data) {
         setRestaurant(restaurantRes.data);
         
-        // Then get menu items (even for unapproved restaurants)
         const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -68,7 +66,6 @@ const MenuManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      // Don't show error for empty menu
       if (error.response?.status !== 404) {
         setMessage({ type: 'error', text: 'Failed to load menu items' });
       }
@@ -105,7 +102,7 @@ const MenuManagement = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
         setMessage({ type: 'error', text: 'Image size should be less than 5MB' });
         return;
       }
@@ -118,7 +115,6 @@ const MenuManagement = () => {
 
       setImageFile(file);
       
-      // Create preview URL
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreview(e.target.result);
@@ -130,7 +126,6 @@ const MenuManagement = () => {
   const removeImage = () => {
     setImageFile(null);
     setImagePreview(null);
-    // Clear the file input
     const fileInput = document.getElementById('menuImage');
     if (fileInput) {
       fileInput.value = '';
@@ -142,10 +137,8 @@ const MenuManagement = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      // Create FormData for file upload
       const formDataToSend = new FormData();
       
-      // Add text fields
       formDataToSend.append('name', formData.name);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('category', formData.category);
@@ -159,29 +152,24 @@ const MenuManagement = () => {
         formDataToSend.append('calories', parseInt(formData.calories));
       }
       
-      // Add ingredients as array
       const ingredients = formData.ingredients.split(',').map(i => i.trim()).filter(i => i);
       ingredients.forEach(ingredient => {
         formDataToSend.append('ingredients', ingredient);
       });
       
-      // Add dietary options as array
       if (Array.isArray(formData.dietary)) {
         formData.dietary.forEach(diet => {
           formDataToSend.append('dietary', diet);
         });
       }
       
-      // Add discount
       formDataToSend.append('discount[percentage]', parseFloat(formData.discount.percentage) || 0);
       if (formData.discount.validUntil) {
         formDataToSend.append('discount[validUntil]', formData.discount.validUntil);
       }
       
-      // Add restaurant ID
       formDataToSend.append('restaurant', restaurant._id);
       
-      // Add image if selected
       if (imageFile) {
         formDataToSend.append('menuImage', imageFile);
       }
@@ -242,7 +230,6 @@ const MenuManagement = () => {
       }
     });
     
-    // Set existing image preview if available
     if (item.image) {
       setImagePreview(`http://localhost:5000${item.image}`);
     } else {
@@ -306,7 +293,6 @@ const MenuManagement = () => {
     setImagePreview(null);
     setShowAddForm(false);
     
-    // Clear file input
     const fileInput = document.getElementById('menuImage');
     if (fileInput) {
       fileInput.value = '';
@@ -337,13 +323,11 @@ const MenuManagement = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Menu Management</h1>
           <p className="mt-2 text-gray-600">Manage your restaurant's menu items</p>
         </div>
 
-        {/* Alert Messages */}
         {message.text && (
           <div className={`mb-6 p-4 rounded-md ${
             message.type === 'success' 
@@ -519,7 +503,6 @@ const MenuManagement = () => {
                 </div>
               </div>
 
-              {/* Dietary Options */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Dietary Options
@@ -541,7 +524,6 @@ const MenuManagement = () => {
                 </div>
               </div>
 
-              {/* Discount */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -572,7 +554,6 @@ const MenuManagement = () => {
                 </div>
               </div>
 
-              {/* Availability and Popular */}
               <div className="flex items-center space-x-6">
                 <label className="flex items-center">
                   <input
@@ -597,7 +578,6 @@ const MenuManagement = () => {
                 </label>
               </div>
 
-              {/* Form Actions */}
               <div className="flex justify-end space-x-3">
                 <button
                   type="button"
@@ -617,7 +597,6 @@ const MenuManagement = () => {
           </div>
         )}
 
-        {/* Add Button */}
         {!showAddForm && (
           <div className="mb-6">
             <button
@@ -629,7 +608,6 @@ const MenuManagement = () => {
           </div>
         )}
 
-        {/* Menu Items List */}
         <div className="bg-white shadow rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">
@@ -646,7 +624,6 @@ const MenuManagement = () => {
               {menuItems.map(item => (
                 <div key={item._id} className="p-6">
                   <div className="flex items-start justify-between gap-4">
-                    {/* Menu Item Image */}
                     <div className="flex-shrink-0">
                       {item.image ? (
                         <img
@@ -661,7 +638,6 @@ const MenuManagement = () => {
                       )}
                     </div>
 
-                    {/* Menu Item Details */}
                     <div className="flex-1">
                       <div className="flex items-center">
                         <h4 className="text-lg font-medium text-gray-900">

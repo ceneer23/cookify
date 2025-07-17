@@ -109,7 +109,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Cart Sidebar */}
       <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
