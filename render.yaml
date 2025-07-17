@@ -3,8 +3,8 @@ services:
     name: cookify-backend
     env: node
     plan: free
-    buildCommand: cd "Cookify Backend" && npm install
-    startCommand: npm start
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: chmod +x start.sh && ./start.sh
     envVars:
       - key: NODE_ENV
         value: production

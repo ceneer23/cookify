@@ -4,8 +4,9 @@
   "description": "Cookify food delivery application",
   "main": "Cookify Backend/server.js",
   "scripts": {
-    "start": "cd \"Cookify Backend\" && npm start",
-    "build": "cd \"Cookify Backend\" && npm install",
+    "start": "./start.sh",
+    "build": "./build.sh",
+    "postinstall": "cd \"Cookify Backend\" && npm install",
     "dev": "cd \"Cookify Backend\" && npm run dev",
     "install-backend": "cd \"Cookify Backend\" && npm install",
     "install-frontend": "cd \"CookifyFrontend\" && npm install",
@@ -23,6 +24,16 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "mongoose": "^8.16.3"
+    "mongoose": "^8.16.3",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.2.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.1.4",
+    "multer": "^1.4.5-lts.1"
   }
 }
