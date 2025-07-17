@@ -13,7 +13,7 @@ const Register = () => {
   });
   const [errors, setErrors] = useState({});
   
-  const { register, loading, error } = useAuth();
+  const { register, loading, error, clearError } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -27,6 +27,10 @@ const Register = () => {
         ...errors,
         [e.target.name]: ''
       });
+    }
+    // Clear auth error when user starts typing
+    if (error) {
+      clearError();
     }
   };
 
@@ -62,13 +66,28 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    console.log('Registration form submitted with data:', formData); // Debug log
+    
     if (!validateForm()) return;
     
     const { confirmPassword, ...userData } = formData;
     const result = await register(userData);
     
+    console.log('Registration result:', result); // Debug log
+    
     if (result.success) {
       navigate('/');
+    } else if (result.details) {
+      // Handle detailed validation errors
+      const newErrors = {};
+      result.details.forEach(detail => {
+        if (detail.field === 'general') {
+          // General errors will be shown in the error banner
+          return;
+        }
+        newErrors[detail.field] = detail.message;
+      });
+      setErrors(newErrors);
     }
   };
 

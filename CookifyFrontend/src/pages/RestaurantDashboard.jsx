@@ -18,7 +18,7 @@ const RestaurantDashboard = () => {
   const fetchRestaurantData = async () => {
     try {
       // Get restaurant owned by current user
-      const restaurantRes = await axios.get('http://localhost:5001/api/restaurants/my-restaurant', {
+      const restaurantRes = await axios.get('http://localhost:5000/api/restaurants/my-restaurant', {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -26,13 +26,13 @@ const RestaurantDashboard = () => {
         setRestaurant(restaurantRes.data);
         
         // Fetch orders for this restaurant
-        const ordersRes = await axios.get('http://localhost:5001/api/orders/restaurant?limit=20', {
+        const ordersRes = await axios.get('http://localhost:5000/api/orders/restaurant?limit=20', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setOrders(ordersRes.data);
         
         // Fetch menu items count
-        const menuRes = await axios.get(`http://localhost:5001/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
+        const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setMenuItemsCount(menuRes.data.length);

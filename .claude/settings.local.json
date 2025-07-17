@@ -22,7 +22,15 @@
       "Bash(git merge:*)",
       "WebFetch(domain:github.com)",
       "Bash(where gh)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node:*)",
+      "Bash(mongod:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm install:*)",
+      "Bash(sc query:*)",
+      "Bash(pkill:*)",
+      "Bash(kill:*)"
     ],
     "deny": []
   }

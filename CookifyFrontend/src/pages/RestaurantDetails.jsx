@@ -23,11 +23,11 @@ const RestaurantDetails = () => {
       setLoading(true);
       
       // Fetch restaurant details
-      const restaurantRes = await axios.get(`http://localhost:5001/api/restaurants/${id}`);
+      const restaurantRes = await axios.get(`http://localhost:5000/api/restaurants/${id}`);
       setRestaurant(restaurantRes.data);
 
       // Fetch menu items
-      const menuRes = await axios.get(`http://localhost:5001/api/menus/restaurant/${id}`);
+      const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${id}`);
       setMenuItems(menuRes.data);
       
     } catch (error) {
@@ -274,7 +274,7 @@ const RestaurantDetails = () => {
                           <div className="flex-shrink-0">
                             {item.image ? (
                               <img
-                                src={`http://localhost:5001${item.image}`}
+                                src={`http://localhost:5000${item.image}`}
                                 alt={item.name}
                                 className="w-32 h-32 object-cover"
                               />

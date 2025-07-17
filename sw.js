@@ -56,8 +56,24 @@ self.addEventListener('fetch', (event) => {
         }).catch(() => {
           // Return offline page for navigation requests
           if (event.request.destination === 'document') {
-            return caches.match('/');
+            return caches.match('/').then((response) => {
+              return response || new Response('Offline - Please check your connection', {
+                status: 503,
+                statusText: 'Service Unavailable',
+                headers: new Headers({
+                  'Content-Type': 'text/plain'
+                })
+              });
+            });
           }
+          // Return a basic offline response for other requests
+          return new Response('Network request failed', {
+            status: 503,
+            statusText: 'Service Unavailable',
+            headers: new Headers({
+              'Content-Type': 'text/plain'
+            })
+          });
         });
       })
   );

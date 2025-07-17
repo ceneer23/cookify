@@ -9,7 +9,7 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   
-  const { login, loading, error } = useAuth();
+  const { login, loading, error, clearError } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,6 +22,10 @@ const Login = () => {
         ...errors,
         [e.target.name]: ''
       });
+    }
+    // Clear auth error when user starts typing
+    if (error) {
+      clearError();
     }
   };
 
@@ -45,12 +49,27 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    console.log('Form submitted with data:', formData); // Debug log
+    
     if (!validateForm()) return;
     
     const result = await login(formData.email, formData.password);
     
+    console.log('Login result:', result); // Debug log
+    
     if (result.success) {
       navigate('/');
+    } else if (result.details) {
+      // Handle detailed validation errors
+      const newErrors = {};
+      result.details.forEach(detail => {
+        if (detail.field === 'general') {
+          // General errors will be shown in the error banner
+          return;
+        }
+        newErrors[detail.field] = detail.message;
+      });
+      setErrors(newErrors);
     }
   };
 

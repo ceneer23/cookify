@@ -57,3 +57,5 @@ app.listen(PORT, () => {
   console.log(`=� Cookify server running on port ${PORT}`);
   console.log(`=� Health check: http://localhost:${PORT}/health`);
 });
+
+

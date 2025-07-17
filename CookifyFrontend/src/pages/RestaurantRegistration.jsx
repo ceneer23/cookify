@@ -161,7 +161,7 @@ const RestaurantRegistration = () => {
     
     try {
       const response = await axios.post(
-        'http://localhost:5001/api/restaurants',
+        'http://localhost:5000/api/restaurants',
         formData,
         {
           headers: {

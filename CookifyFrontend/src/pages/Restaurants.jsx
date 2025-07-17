@@ -28,7 +28,7 @@ const Restaurants = () => {
       params.append('page', filters.page);
       params.append('limit', '12');
 
-      const response = await axios.get(`http://localhost:5001/api/restaurants?${params}`);
+      const response = await axios.get(`http://localhost:5000/api/restaurants?${params}`);
       setRestaurants(response.data.restaurants);
       setError('');
     } catch (err) {

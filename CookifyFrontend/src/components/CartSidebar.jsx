@@ -96,7 +96,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                     <div className="flex-shrink-0">
                       {item.menuItem.image ? (
                         <img
-                          src={`http://localhost:5001${item.menuItem.image}`}
+                          src={`http://localhost:5000${item.menuItem.image}`}
                           alt={item.menuItem.name}
                           className="w-16 h-16 object-cover rounded-lg"
                         />

@@ -128,7 +128,7 @@ const Checkout = () => {
       };
 
       const response = await axios.post(
-        'http://localhost:5001/api/orders',
+        'http://localhost:5000/api/orders',
         orderData,
         {
           headers: {

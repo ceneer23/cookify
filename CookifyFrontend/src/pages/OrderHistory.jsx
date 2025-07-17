@@ -15,7 +15,7 @@ const OrderHistory = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/orders/user', {
+      const response = await axios.get('http://localhost:5000/api/orders/user', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setOrders(response.data);

@@ -27,7 +27,7 @@ const OrderTracking = () => {
       if (showLoading) setLoading(true);
       
       const response = await axios.get(
-        `http://localhost:5001/api/orders/${orderId}`,
+        `http://localhost:5000/api/orders/${orderId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }

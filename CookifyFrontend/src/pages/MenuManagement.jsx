@@ -52,7 +52,7 @@ const MenuManagement = () => {
   const fetchRestaurantAndMenu = async () => {
     try {
       // First get restaurant
-      const restaurantRes = await axios.get('http://localhost:5001/api/restaurants/my-restaurant', {
+      const restaurantRes = await axios.get('http://localhost:5000/api/restaurants/my-restaurant', {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -60,7 +60,7 @@ const MenuManagement = () => {
         setRestaurant(restaurantRes.data);
         
         // Then get menu items (even for unapproved restaurants)
-        const menuRes = await axios.get(`http://localhost:5001/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
+        const menuRes = await axios.get(`http://localhost:5000/api/menus/restaurant/${restaurantRes.data._id}?available=false`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -188,7 +188,7 @@ const MenuManagement = () => {
 
       if (editingItem) {
         await axios.put(
-          `http://localhost:5001/api/menus/${editingItem._id}`,
+          `http://localhost:5000/api/menus/${editingItem._id}`,
           formDataToSend,
           { 
             headers: { 
@@ -200,7 +200,7 @@ const MenuManagement = () => {
         setMessage({ type: 'success', text: 'Menu item updated successfully!' });
       } else {
         await axios.post(
-          'http://localhost:5001/api/menus',
+          'http://localhost:5000/api/menus',
           formDataToSend,
           { 
             headers: { 
@@ -244,7 +244,7 @@ const MenuManagement = () => {
     
     // Set existing image preview if available
     if (item.image) {
-      setImagePreview(`http://localhost:5001${item.image}`);
+      setImagePreview(`http://localhost:5000${item.image}`);
     } else {
       setImagePreview(null);
     }
@@ -257,7 +257,7 @@ const MenuManagement = () => {
     if (!window.confirm('Are you sure you want to delete this item?')) return;
 
     try {
-      await axios.delete(`http://localhost:5001/api/menus/${id}`, {
+      await axios.delete(`http://localhost:5000/api/menus/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage({ type: 'success', text: 'Menu item deleted successfully!' });
@@ -273,7 +273,7 @@ const MenuManagement = () => {
   const toggleAvailability = async (item) => {
     try {
       await axios.put(
-        `http://localhost:5001/api/menus/${item._id}`,
+        `http://localhost:5000/api/menus/${item._id}`,
         { isAvailable: !item.isAvailable },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -650,7 +650,7 @@ const MenuManagement = () => {
                     <div className="flex-shrink-0">
                       {item.image ? (
                         <img
-                          src={`http://localhost:5001${item.image}`}
+                          src={`http://localhost:5000${item.image}`}
                           alt={item.name}
                           className="w-20 h-20 object-cover rounded-lg border border-gray-300"
                         />
