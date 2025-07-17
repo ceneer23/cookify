@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
-import { API_URL } from '../config/api';
+import { API_URL, BASE_URL } from '../config/api';
 
 const MenuManagement = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -232,7 +232,7 @@ const MenuManagement = () => {
     });
     
     if (item.image) {
-      setImagePreview(`http://localhost:5000${item.image}`);
+      setImagePreview(`${BASE_URL}${item.image}`);
     } else {
       setImagePreview(null);
     }
@@ -628,7 +628,7 @@ const MenuManagement = () => {
                     <div className="flex-shrink-0">
                       {item.image ? (
                         <img
-                          src={`http://localhost:5000${item.image}`}
+                          src={`${BASE_URL}${item.image}`}
                           alt={item.name}
                           className="w-20 h-20 object-cover rounded-lg border border-gray-300"
                         />

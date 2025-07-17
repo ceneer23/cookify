@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL } from '../config/api';
+import { API_URL, BASE_URL } from '../config/api';
 import { useCart } from '../context/CartContext';
 
 const RestaurantDetails = () => {
@@ -265,7 +265,7 @@ const RestaurantDetails = () => {
                           <div className="flex-shrink-0">
                             {item.image ? (
                               <img
-                                src={`http://localhost:5000${item.image}`}
+                                src={`${BASE_URL}${item.image}`}
                                 alt={item.name}
                                 className="w-32 h-32 object-cover"
                               />

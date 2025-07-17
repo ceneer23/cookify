@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { BASE_URL } from '../config/api';
 
 const CartSidebar = ({ isOpen, onClose }) => {
   const { 
@@ -87,7 +88,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
                     <div className="flex-shrink-0">
                       {item.menuItem.image ? (
                         <img
-                          src={`http://localhost:5000${item.menuItem.image}`}
+                          src={`${BASE_URL}${item.menuItem.image}`}
                           alt={item.menuItem.name}
                           className="w-16 h-16 object-cover rounded-lg"
                         />
