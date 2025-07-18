@@ -85,13 +85,22 @@ const CartSidebar = ({ isOpen, onClose }) => {
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
                   <div key={item.id} className="flex items-start space-x-3 pb-4 border-b border-gray-100">
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 relative">
                       {item.menuItem.image ? (
-                        <img
-                          src={`${BASE_URL}${item.menuItem.image}`}
-                          alt={item.menuItem.name}
-                          className="w-16 h-16 object-cover rounded-lg"
-                        />
+                        <>
+                          <img
+                            src={item.menuItem.image.startsWith('http') ? item.menuItem.image : `${BASE_URL}${item.menuItem.image}`}
+                            alt={item.menuItem.name}
+                            className="w-16 h-16 object-cover rounded-lg"
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.nextSibling.style.display = 'flex';
+                            }}
+                          />
+                          <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center absolute top-0 left-0" style={{display: 'none'}}>
+                            <span className="text-xl">🍽️</span>
+                          </div>
+                        </>
                       ) : (
                         <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
                           <span className="text-xl">🍽️</span>
