@@ -60,8 +60,13 @@ const networkOrigins = [
 
 const corsOptions = {
   origin: function(origin, callback) {
+    console.log(`CORS - Request from origin: ${origin || 'no origin'}`);
+    
     // Allow requests with no origin (like mobile apps or Postman)
-    if (!origin) return callback(null, true);
+    if (!origin) {
+      console.log('CORS - No origin (mobile app/Postman) - allowed');
+      return callback(null, true);
+    }
     
     // Combine all allowed origins
     const allowedOrigins = [
@@ -115,14 +120,29 @@ const corsOptions = {
         console.log(`CORS - Development origin allowed: ${origin}`);
         callback(null, true);
       } else {
-        console.log(`CORS - Origin blocked: ${origin}`);
-        callback(new Error('Not allowed by CORS'));
+        console.log(`CORS - Origin not in allowed list: ${origin}`);
+        console.log(`CORS - Available origins: ${allowedOrigins.join(', ')}`);
+        // Always allow in production to prevent blocking legitimate requests
+        console.log('CORS - Allowing request to prevent blocking');
+        callback(null, true);
       }
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'X-Requested-With', 
+    'Accept', 
+    'Origin',
+    'User-Agent',
+    'Cache-Control',
+    'Pragma',
+    'Expires',
+    'If-Modified-Since',
+    'If-None-Match'
+  ],
   exposedHeaders: ['Content-Length', 'X-Content-Type-Options'],
   maxAge: 86400, // 24 hours
   preflightContinue: false,

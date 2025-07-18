@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const connectDB = require('./config/database');
 const corsMiddleware = require('./config/cors');
-require('dotenv').config();
 
 connectDB();
 
