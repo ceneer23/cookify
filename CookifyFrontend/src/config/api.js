@@ -14,11 +14,6 @@ axios.interceptors.request.use(
     config.headers['Content-Type'] = 'application/json';
     config.headers['Accept'] = 'application/json';
     
-    // Add user agent for mobile detection
-    if (typeof navigator !== 'undefined' && navigator.userAgent) {
-      config.headers['User-Agent'] = navigator.userAgent;
-    }
-    
     return config;
   },
   (error) => {

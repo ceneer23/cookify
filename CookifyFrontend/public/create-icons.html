@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Icons</title>
+</head>
+<body>
+    <canvas id="canvas192" width="192" height="192"></canvas>
+    <canvas id="canvas512" width="512" height="512"></canvas>
+    <canvas id="canvas180" width="180" height="180"></canvas>
+    
+    <script>
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#f97316');
+            gradient.addColorStop(1, '#ea580c');
+            
+            // Draw rounded background
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.125);
+            ctx.fill();
+            
+            // Draw fork and knife icon
+            ctx.fillStyle = 'white';
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = size * 0.02;
+            
+            // Fork
+            const forkX = size * 0.3;
+            const forkY = size * 0.25;
+            const forkH = size * 0.5;
+            const forkW = size * 0.1;
+            
+            ctx.fillRect(forkX, forkY, forkW, forkH);
+            ctx.fillRect(forkX - forkW/2, forkY, forkW/4, forkH/3);
+            ctx.fillRect(forkX + forkW/4, forkY, forkW/4, forkH/3);
+            ctx.fillRect(forkX + forkW/2, forkY, forkW/4, forkH/3);
+            
+            // Knife
+            const knifeX = size * 0.6;
+            const knifeY = size * 0.25;
+            const knifeH = size * 0.5;
+            const knifeW = size * 0.08;
+            
+            ctx.fillRect(knifeX, knifeY, knifeW, knifeH);
+            ctx.fillRect(knifeX, knifeY, knifeW * 2, knifeH/3);
+            
+            // Convert to blob and create download link
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}x${size}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        // Create icons
+        createIcon('canvas192', 192);
+        createIcon('canvas512', 512);
+        createIcon('canvas180', 180);
+    </script>
+</body>
+</html>
