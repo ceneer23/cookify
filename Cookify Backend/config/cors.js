@@ -40,6 +40,7 @@ const productionOrigins = [
   'https://cookify-frontend-4364t59nm-atim-senas-projects.vercel.app',
   'https://cookify-frontend-5rq5h7ly4-atim-senas-projects.vercel.app',
   'https://cookify-frontend-bcv5yony3-atim-senas-projects.vercel.app',
+  'https://cookify-frontend-pwgbpf1kv-atim-senas-projects.vercel.app',
   // Render backend patterns
   'https://cookify-backend.onrender.com',
   'https://cookify-api.onrender.com',
