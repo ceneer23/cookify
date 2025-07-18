@@ -30,6 +30,9 @@ const productionOrigins = [
   'https://cookify.netlify.app',
   'https://cookify.vercel.app',
   'https://cookify-eta.vercel.app',
+  // Netlify deployments
+  'https://stirring-belekoy-9e7a41.netlify.app',
+  'https://cookify-webapp.netlify.app',
   // Vercel preview deployments
   'https://cookify-frontend-*.vercel.app',
   'https://cookify-*.vercel.app',
@@ -74,7 +77,7 @@ const corsOptions = {
       console.log(`CORS - Origin allowed: ${origin}`);
       callback(null, true);
     } else {
-      // Check for Vercel preview deployments (more flexible patterns)
+      // Check for Vercel preview deployments and Netlify deployments (more flexible patterns)
       const isVercelPreview = origin && (
         origin.match(/^https:\/\/cookify-frontend-[a-z0-9]+-[a-z0-9-]+\.vercel\.app$/) ||
         origin.match(/^https:\/\/cookify-[a-z0-9]+-[a-z0-9-]+\.vercel\.app$/) ||
@@ -82,8 +85,19 @@ const corsOptions = {
         origin.includes('cookify-frontend') && origin.includes('.vercel.app')
       );
       
+      const isNetlifyDeploy = origin && (
+        origin.match(/^https:\/\/[a-z0-9-]+\.netlify\.app$/) ||
+        origin.includes('cookify') && origin.includes('.netlify.app')
+      );
+      
       if (isVercelPreview) {
         console.log(`CORS - Vercel preview deployment allowed: ${origin}`);
+        callback(null, true);
+        return;
+      }
+      
+      if (isNetlifyDeploy) {
+        console.log(`CORS - Netlify deployment allowed: ${origin}`);
         callback(null, true);
         return;
       }
