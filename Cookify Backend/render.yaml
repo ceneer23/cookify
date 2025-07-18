@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: cookify-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: cookify-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRE
+        value: 30d
+      - key: FRONTEND_URL
+        value: https://cookify-frontend-dkz3czfl6-atim-senas-projects.vercel.app
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

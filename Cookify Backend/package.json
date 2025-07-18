@@ -1,5 +1,5 @@
 {
-  "name": "cookify-backend",
+  "name": "cookify-api",
   "version": "1.0.0",
   "description": "Cookify food delivery backend API",
   "main": "server.js",
@@ -8,7 +8,8 @@
     "dev": "node kill-port.js 5000 && nodemon server.js",
     "dev:force": "node kill-port.js 5000 && node server.js",
     "kill-port": "node kill-port.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo 'No build step required'"
   },
   "keywords": [
     "food",

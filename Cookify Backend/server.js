@@ -1,9 +1,9 @@
 const express = require('express');
-const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const connectDB = require('./config/database');
+const corsMiddleware = require('./config/cors');
 require('dotenv').config();
 
 connectDB();
@@ -12,69 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
-app.use(cors({
-  origin: function(origin, callback) {
-    // Allow requests with no origin (like mobile apps or Postman)
-    if (!origin) return callback(null, true);
-    
-    // List of allowed origins
-    const allowedOrigins = [
-      'http://localhost:5173',
-      'http://localhost:5174',
-      'http://localhost:5175',
-      'http://localhost:5176',
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://127.0.0.1:5500',
-      'http://127.0.0.1:5173',
-      'http://127.0.0.1:5174',
-      // Network IP addresses
-      'http://30.10.0.232:5174',
-      'http://172.21.192.1:5174',
-      'http://30.10.0.232:5173',
-      'http://172.21.192.1:5173',
-      // Add production frontend URL (update this with your actual frontend URL)
-      process.env.FRONTEND_URL,
-      'https://cookify-frontend.vercel.app',
-      'https://cookify-frontend.netlify.app',
-      // Add more flexible patterns for common hosting platforms
-      'https://cookify-frontend.onrender.com',
-      'https://cookify.netlify.app',
-      'https://cookify.vercel.app',
-      // Your actual hosted frontend URL
-      'https://cookify-eta.vercel.app'
-    ].filter(Boolean);
-    
-    console.log('CORS - Request origin:', origin);
-    
-    // Check if the origin is in the allowed list
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      console.log('CORS - Origin allowed');
-      callback(null, true);
-    } else {
-      // For development, allow all localhost and network IP origins
-      if (origin && (
-        origin.includes('localhost') || 
-        origin.includes('127.0.0.1') ||
-        origin.includes('30.10.0.232') ||
-        origin.includes('172.21.192.1')
-      )) {
-        console.log('CORS - Development origin allowed');
-        callback(null, true);
-      } else {
-        console.log('CORS - Origin blocked:', origin);
-        callback(null, false);
-      }
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
-  exposedHeaders: ['Content-Length', 'X-Content-Type-Options'],
-  maxAge: 86400, // 24 hours
-  preflightContinue: false,
-  optionsSuccessStatus: 200
-}));
+app.use(corsMiddleware);
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -115,8 +53,10 @@ app.use((err, req, res, next) => {
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`=🍽 Cookify server running on port ${PORT}`);
   console.log(`=🔍 Health check: http://localhost:${PORT}/health`);
-  console.log(`=🌐 Network access: http://30.10.0.232:${PORT}/health`);
-  console.log(`=🌐 Network access: http://172.21.192.1:${PORT}/health`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`=🌐 Network access: http://30.10.0.232:${PORT}/health`);
+    console.log(`=🌐 Network access: http://172.21.192.1:${PORT}/health`);
+  }
 });
 
 server.on('error', (err) => {
