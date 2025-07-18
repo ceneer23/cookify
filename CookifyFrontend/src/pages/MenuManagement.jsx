@@ -322,10 +322,39 @@ const MenuManagement = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50">
+      {/* Page Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <span className="text-xl">📝</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Menu Management</h1>
+                  <p className="text-gray-600 mt-1">{restaurant.name} • {menuItems.length} items</p>
+                </div>
+              </div>
+              
+              {/* Quick Actions */}
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={() => setShowAddForm(!showAddForm)}
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700"
+                >
+                  <span className="mr-2">{showAddForm ? '✕' : '+'}</span>
+                  {showAddForm ? 'Cancel' : 'Add Menu Item'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Menu Management</h1>
           <p className="mt-2 text-gray-600">Manage your restaurant's menu items</p>
         </div>
 

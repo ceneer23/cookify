@@ -52,12 +52,35 @@ const OrderHistory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Order History</h1>
-          <p className="mt-2 text-gray-600">View your past orders and reorder your favorites</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Page Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <span className="text-xl">📋</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Order History</h1>
+                  <p className="text-gray-600 mt-1">View your past orders and reorder your favorites</p>
+                </div>
+              </div>
+              
+              {/* Quick Stats */}
+              {orders.length > 0 && (
+                <div className="text-right">
+                  <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
+                  <p className="text-sm text-gray-600">Total Orders</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 rounded-md p-4">

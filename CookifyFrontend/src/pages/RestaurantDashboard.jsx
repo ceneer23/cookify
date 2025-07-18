@@ -98,16 +98,50 @@ const RestaurantDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">{restaurant.name}</h1>
-              <p className="mt-1 text-gray-600">{restaurant.cuisine} • {restaurant.address.city}, {restaurant.address.state}</p>
+      {/* Page Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="h-16 w-16 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <span className="text-2xl">🏪</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">{restaurant.name}</h1>
+                  <div className="flex items-center space-x-2 mt-1">
+                    <span className="text-gray-600">{restaurant.cuisine}</span>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-gray-600">{restaurant.address.city}, {restaurant.address.state}</span>
+                    <span className="text-gray-400">•</span>
+                    {getStatusBadge(restaurant.isApproved)}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Quick Actions */}
+              <div className="flex items-center space-x-3">
+                <Link
+                  to="/menu-management"
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                >
+                  <span className="mr-2">📝</span>
+                  Manage Menu
+                </Link>
+                <Link
+                  to={`/restaurants/${restaurant._id}`}
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700"
+                >
+                  <span className="mr-2">👁️</span>
+                  View Public Page
+                </Link>
+              </div>
             </div>
-            {getStatusBadge(restaurant.isApproved)}
           </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {!restaurant.isApproved && (
           <div className="mb-8 bg-yellow-50 border border-yellow-200 rounded-md p-4">
